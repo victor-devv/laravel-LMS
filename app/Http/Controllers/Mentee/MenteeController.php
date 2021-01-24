@@ -1,18 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Mentor;
+namespace App\Http\Controllers\Mentee;
 
-use App\Models\Mentee;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
-class MentorController extends Controller
+class MenteeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
- 
     /**
      * Display a listing of the resource.
      *
@@ -20,13 +14,7 @@ class MentorController extends Controller
      */
     public function index()
     {
-        $mentees = Mentee::paginate(10);
-
-        return view('teachers.index')->with(
-            [
-                'mentees' => $mentees
-            ]
-        );
+        //
     }
 
     /**

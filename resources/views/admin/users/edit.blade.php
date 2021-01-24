@@ -12,6 +12,7 @@
 <br>
 <div class="card authform">
     <div class="card-body">
+        @include('partials.alerts')
         <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
             @method('PATCH')
             @include('admin.users.partials.form')

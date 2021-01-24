@@ -21,4 +21,10 @@ class Mentee extends Model
     {
         return $this->belongsTo(Mentor::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

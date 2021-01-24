@@ -37,5 +37,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('is-mentor', function ($user) {
             return $user->isMentor($user->id);
         });
+
+        Gate::define('is-mentee', function ($user) {
+            return $user->isMentee($user->id);
+        });
+
+        Gate::define('has-mentor', function ($user) {
+            return $user->hasMentor();
+        });
+
     }
 }

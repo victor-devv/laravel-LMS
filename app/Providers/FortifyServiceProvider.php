@@ -54,31 +54,29 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::registerView(fn () => view('auth.register'));
 
+        //Fortify login not used. No support for redirect based on roles. route /authenticate used
         Fortify::loginView(fn () => view('auth.login'));
 
-        Fortify::authenticateUsing(function (Request $request) {
-            $credentials = $request->only('email', 'password');
+        // Fortify::authenticateUsing(function (Request $request) {
+        //     $credentials = $request->only('email', 'password');
 
-            if (Auth::attempt($credentials)) {
+        //     if (Auth::attempt($credentials)) {
 
-                if (Gate::allows('is-admin')) {
-                    return redirect(config('fortify.admin-dashboard'));
-                } else if (Gate::allows('is-mentor')) {
-                    return redirect(config('fortify.teacher-dashboard'));
-                }
+        //         if (Gate::allows('is-admin')) {
+        //             return redirect(config('fortify.admin-dashboard'));
+        //         } else if (Gate::allows('is-mentor')) {
+        //             return redirect(config('fortify.teacher-dashboard'));
+        //         }
+        //     }
 
-                // if ($this->middleware('auth.isAdmin')) {
-                //     # code...
-                // }
-
-                //return redirect()->intended('/details');
-            }
-    
-        });
-
+        // });
 
         Fortify::requestPasswordResetLinkView(function () {
-            return view('auth.forgot-password');
+            return view('auth.passwords.email');
+        });
+
+        Fortify::resetPasswordView(function ($request) {
+            return view('auth.passwords.reset', ['request' => $request]);
         });
     }
-}
+} 

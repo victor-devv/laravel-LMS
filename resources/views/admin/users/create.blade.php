@@ -12,6 +12,7 @@
 <br>
 <div class="card authform">
     <div class="card-body">
+        @include('partials.alerts')
         <form method="POST" action="{{ route('admin.users.store') }}">
             @include('admin.users.partials.form')
         </form>
@@ -54,17 +55,17 @@
                 $('#mentorSection').attr('hidden', true);
             }
 
-            for(var i = 0; i < selectObject.length; i++) {
+            for (var i = 0; i < selectObject.length; i++) {
                 if (selectObject[i].text == 'Student') {
                     found = true;
                     $('#mentorSection').attr('hidden', false);
                     break;
-                } else{
+                } else {
                     $('#mentorSection').attr('hidden', true);
                 }
             }
 
-            
+
         });
     });
 </script>

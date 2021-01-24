@@ -64,6 +64,26 @@ class UserController extends Controller
     {
         // dd($request);
 
+        if (empty($request->roles)) {
+            session()->flash('failure', 'You must Assign A Role To This User!');
+            return redirect()->back();
+        }
+
+        if (in_array('1', $request->roles) && in_array('4', $request->roles)) {
+            session()->flash('failure', 'User Cannot Be A Super Admin And Mentee!');
+            return redirect()->back();
+        }
+
+        if (in_array('2', $request->roles) && in_array('4', $request->roles)) {
+            session()->flash('failure', 'User Cannot Be An Admin And Mentee!');
+            return redirect()->back();
+        }
+
+        if (in_array('4', $request->roles) && in_array('3', $request->roles)) {
+            session()->flash('failure', 'User Cannot Be A Mentor And Mentee!');
+            return redirect()->back();
+        }
+
         $newUser = new CreateNewUser();
 
         $user = $newUser->create(array_merge($request->only('first-name', 'last-name', 'email', 'password', 'password_confirmation'), ['msisdn' => null]));
@@ -76,6 +96,12 @@ class UserController extends Controller
                 'last_name' => $user->last_name,
                 'user_id' => $user->id
             ]);
+            // $mentor = $user->mentor->create([
+            //     'first_name' => $user->first_name,
+            //     'last_name' => $user->last_name,
+            //     'user_id' => $user->id
+            // ]);
+    
 
             if ($request->mentees) {
                 $mentor->mentees()->sync($request->mentees);
@@ -88,6 +114,13 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'mentor_id' => $request['mentor']
             ]);
+            // $mentee = $user->mentee->create([
+            //     'first_name' => $user->first_name,
+            //     'last_name' => $user->last_name,
+            //     'user_id' => $user->id,
+            //     'mentor_id' => $request['mentor']
+            // ]);
+
         }
 
         $user->roles()->sync($request->roles);
@@ -170,6 +203,26 @@ class UserController extends Controller
             return redirect(route('admin.users.index'));
         }
 
+        if (empty($request->roles)) {
+            session()->flash('failure', 'You must Assign A Role To This User!');
+            return redirect()->back();
+        }
+
+        if (in_array('1', $request->roles) && in_array('4', $request->roles)) {
+            session()->flash('failure', 'User Cannot Be A Super Admin And Mentee!');
+            return redirect()->back();
+        }
+
+        if (in_array('2', $request->roles) && in_array('4', $request->roles)) {
+            session()->flash('failure', 'User Cannot Be An Admin And Mentee!');
+            return redirect()->back();
+        }
+
+        if (in_array('4', $request->roles) && in_array('3', $request->roles)) {
+            session()->flash('failure', 'User Cannot Be A Mentor And Mentee!');
+            return redirect()->back();
+        }
+
         $data = $request->only(['first-name', 'last-name', 'email']);
 
         if ($request->roles) {
@@ -178,22 +231,100 @@ class UserController extends Controller
 
         $user->update($data);
 
-        if (in_array('3', $request->roles)) {
+        // $mentor = Mentor::where('user_id', $id)->first();
+        // $mentee = Mentee::where('user_id', $id)->first();
 
-            $mentor = Mentor::where('user_id', $id)->update([
-                'first_name' => $request['first-name'],
-                'last_name' => $request['last-name'],
-            ]);
+        if ($user->isMentor($user->id)) {
+            if (in_array('3', $request->roles)) {
+    
+                $mentor = Mentor::where('user_id', $id)->update([
+                    'first_name' => $request['first-name'],
+                    'last_name' => $request['last-name'],
+                ]);
+    
+                if ($request->mentees) {
+                    $mentor->mentees()->sync($request->mentees);
+                }
 
-            if ($request->mentees) {
-                $mentor->mentees()->sync($request->mentees);
+            } else if (in_array('4', $request->roles)) {
+                //delete user from mentor table
+                Mentor::where('user_id', $id)->delete();
+
+                //add to mentee table
+                $mentee = Mentee::create([
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'user_id' => $user->id,
+                    'mentor_id' => $request['mentor']
+                ]);
+
+                // Mentee::where('user_id', $id)->update([
+                //     'first_name' => $request['first-name'],
+                //     'last_name' => $request['last-name'],
+                //     'mentor_id' => $request['mentor']
+                // ]);
+            } else {
+                Mentor::where('user_id', $id)->delete();
             }
-        } else if (in_array('4', $request->roles)) {
-            Mentee::where('user_id', $id)->update([
-                'first_name' => $request['first-name'],
-                'last_name' => $request['last-name'],
-                'mentor_id' => $request['mentor']
-            ]);
+        } else if ($user->isMentee($user->id)) {
+
+            //user currently a student but other details updated
+            if (in_array('4', $request->roles)) {
+    
+                Mentee::where('user_id', $id)->update([
+                    'first_name' => $request['first-name'],
+                    'last_name' => $request['last-name'],
+                    'mentor_id' => $request['mentor']
+                ]);
+            } else if (in_array('3', $request->roles)) { //user currently a student but updated to mentor
+                Mentee::where('user_id', $id)->delete();
+
+                $mentor = Mentor::create([
+                    'first_name' => $request['first-name'],
+                    'last_name' => $request['last-name'],
+                    'user_id' => $user->id
+                ]);
+
+                if ($request->mentees) {
+                    $mentor->mentees()->sync($request->mentees);
+                }
+            } else {
+                Mentee::where('user_id', $id)->delete();
+            }
+        } else {
+            if (in_array('3', $request->roles)) {
+
+                $mentor = Mentor::create([
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'user_id' => $user->id
+                ]);
+                // $mentor = $user->mentor->create([
+                //     'first_name' => $request['first-name'],
+                //     'last_name' => $request['last-name'],
+                //     'user_id' => $request['mentor']
+                // ]);
+
+
+                if ($request->mentees) {
+                    $mentor->mentees()->sync($request->mentees);
+                }
+            } else if (in_array('4', $request->roles)) {
+
+                $mentee = Mentee::create([
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'user_id' => $user->id,
+                    'mentor_id' => $request['mentor']
+                ]);
+                // $mentee = $user->mentee->create([
+                //     'first_name' => $request['first-name'],
+                //     'last_name' => $request['last-name'],
+                //     'user_id' => $user->id,
+                //     'mentor_id' => $request['mentor']
+                // ]);
+            }
+    
         }
 
         session()->flash('success', 'User Updated Successfully!');
