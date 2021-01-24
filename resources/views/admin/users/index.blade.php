@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-12">
-        <h1 class="float-start">Users</h1>
+        <h1 class="float-start">User Management</h1>
         <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-success float-end" role="button">Add User</a>
 
     </div>

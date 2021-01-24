@@ -46,9 +46,6 @@
         });
 
         $('#roles').on('change', function() {
-            // var first = $(this).find('option').first().val();
-            // var none = $(this).find('option:selected').length;
-                        // $(this).val() == 4
             let selectObject = $('#roles').select2('data');
 
             let found = false;
@@ -63,7 +60,6 @@
                     $('#mentorSection').attr('hidden', false);
                     break;
                 } else{
-                    // console.log(found);
                     $('#mentorSection').attr('hidden', true);
                 }
             }

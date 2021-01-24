@@ -127,6 +127,8 @@ class UserController extends Controller
                     'roles' => Role::all(),
                     'user' => User::find($id),
                     'mentor' => $mentor,
+                    'mentors' => Mentor::all(),
+                    'mentees' => Mentee::all()    
                 ]
             );
         } else if ($mentee) {
@@ -136,6 +138,8 @@ class UserController extends Controller
                     'roles' => Role::all(),
                     'user' => User::find($id),
                     'mentee' => $mentee,
+                    'mentors' => Mentor::all(),
+                    'mentees' => Mentee::all()    
                 ]
             );
         }
@@ -144,6 +148,8 @@ class UserController extends Controller
             [
                 'roles' => Role::all(),
                 'user' => User::find($id),
+                'mentors' => Mentor::all(),
+                'mentees' => Mentee::all()
             ]
         );
     }
@@ -176,7 +182,7 @@ class UserController extends Controller
 
             $mentor = Mentor::where('user_id', $id)->update([
                 'first_name' => $request['first-name'],
-                'last_name' => $request['last_name'],
+                'last_name' => $request['last-name'],
             ]);
 
             if ($request->mentees) {
@@ -185,7 +191,7 @@ class UserController extends Controller
         } else if (in_array('4', $request->roles)) {
             Mentee::where('user_id', $id)->update([
                 'first_name' => $request['first-name'],
-                'last_name' => $request['last_name'],
+                'last_name' => $request['last-name'],
                 'mentor_id' => $request['mentor']
             ]);
         }
