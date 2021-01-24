@@ -62,6 +62,8 @@ return [
     */
 
     'home' => RouteServiceProvider::HOME,
+    'admin-dashboard' => RouteServiceProvider::USERMS,
+    'teacher-dashboard' => RouteServiceProvider::TEACHER,
 
     /*
     |--------------------------------------------------------------------------

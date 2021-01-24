@@ -2,15 +2,18 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Responses\LoginResponse;
 use App\Actions\Fortify\CreateNewUser;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Fortify;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -21,7 +24,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            LoginResponseContract::class,
+            LoginResponse::class
+        );
     }
 
     /**
@@ -46,12 +52,33 @@ class FortifyServiceProvider extends ServiceProvider
 
         // Register views for login and registration
 
-        Fortify::registerView(function() {
-            return view('auth.register');
+        Fortify::registerView(fn () => view('auth.register'));
+
+        Fortify::loginView(fn () => view('auth.login'));
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt($credentials)) {
+
+                if (Gate::allows('is-admin')) {
+                    return redirect(config('fortify.admin-dashboard'));
+                } else if (Gate::allows('is-mentor')) {
+                    return redirect(config('fortify.teacher-dashboard'));
+                }
+
+                // if ($this->middleware('auth.isAdmin')) {
+                //     # code...
+                // }
+
+                //return redirect()->intended('/details');
+            }
+    
         });
 
-        Fortify::loginView(function() {
-            return view('auth.login');
+
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('auth.forgot-password');
         });
     }
 }

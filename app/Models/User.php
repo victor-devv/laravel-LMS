@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Role;
+use App\Models\Mentor;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -83,15 +84,15 @@ class User extends Authenticatable
         return null !== $this->roles()->whereIn('name', $role)->first();
     }
 
-    // public function isMentor($mentee_id)
-    // {
-    //     return (bool)$this->mentor()->where('mentee_id', $mentee_id)->first(['id']);
-    // }
+    public function isMentor(string $id)
+    {
+        return (bool)$this->mentor()->where('user_id', $id)->first();
+    }
 
-    // public function mentor()
-    // {
-    //     return $this->hasMany(Mentor::class);
-    // }
+    public function mentor()
+    {
+        return $this->hasOne(Mentor::class);
+    }
 
     // public function hasMentor(string $mentorID)
     // {

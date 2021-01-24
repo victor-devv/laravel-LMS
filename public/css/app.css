@@ -10734,6 +10734,18 @@ h1, .h1 {
   margin-bottom: 30px;
 }
 
+a {
+  text-decoration: none;
+}
+
+.forgot-pass {
+  color: darkorange;
+}
+
+.forgot-pass:hover {
+  color: darkorange;
+}
+
 .authform {
   margin: 20rem;
   margin-top: 0;
@@ -10749,6 +10761,19 @@ h1, .h1 {
 .navbar a {
   color: #fff;
   text-decoration: none;
+}
+.navbar .right-links {
+  color: darkorange;
+  text-decoration: none;
+}
+.navbar #instructor-link {
+  color: darkkhaki;
+}
+.navbar .btn-outline-success:hover {
+  color: #fff;
+}
+.navbar .btn-outline-warning:hover {
+  color: black;
 }
 
 .card {

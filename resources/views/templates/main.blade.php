@@ -430,9 +430,15 @@
                                     <a class="nav-link active" aria-current="page" href="{{ url('/home') }}">Home</a>
                                 </li>
 
+                                @can('is-admin')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.users.index') }}">User Management</a>
                                 </li>
+                                @elsecan('is-mentor')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('teacher.dashboard') }}">Instructor's Dashboard</a>
+                                </li>
+                                @endcan
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
@@ -443,10 +449,12 @@
                                 </li>
                             </ul>
                             @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700">Login</a>
+                            <a href="#" class="mr-4 text-sm text-gray-700 right-links" id="instructor-link">Become an Instructor</a>
+
+                            <a href="{{ route('login') }}" class="ml-4 text-sm text-gray-700 btn btn-outline-warning right-links">Login</a>
 
                             @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700">Register</a>
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 btn btn-outline-success right-links" role="button">Register</a>
                             @endif
                             @endauth
                         </div>
