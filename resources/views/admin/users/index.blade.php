@@ -9,7 +9,7 @@
 
     </div>
 </div>
-
+@include('partials.alerts')
 <div class="card">
     <table class="table">
         <thead>
