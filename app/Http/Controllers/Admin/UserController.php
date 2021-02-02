@@ -139,7 +139,39 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        $mentor = Mentor::where('user_id', $id)->first();
+        $mentee = Mentee::where('user_id', $id)->first();
+        dd($user->mentor());
+        if ($mentor) {
+            return view(
+                'admin.users.show',
+                [
+                    'roles' => $user->roles(),
+                    'user' => $user,
+                    'mentees' => $user->mentees()
+                ]
+            );
+        } else if ($mentee) {
+            return view(
+                'admin.users.show',
+                [
+                    'roles' => $user->roles(),
+                    'user' => $user,
+                    'mentor' => $user->mentor(),
+                ]
+            );
+        }
+
+        return view(
+            'admin.users.show',
+            [
+                'roles' => $user->roles(),
+                'user' => $user,
+            ]
+        );
+
+        // return view('admin.users.show')->with('user', User::find($id));
     }
 
     /**
