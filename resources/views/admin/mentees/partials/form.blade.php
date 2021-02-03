@@ -52,6 +52,12 @@
 </div>
 @endif
 
+<div class="mb-3" hidden>
+    <label for="roles">Role</label>
+    <select name="roles[]" id="roles" class="form-control roles-selector">
+        <option id="role4" value="4" selected>Student</option>
+    </select>
+</div>
 
 <div class="mb-3" id="mentorSection">
     <label for="mentor">Mentor</label>

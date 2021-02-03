@@ -14,8 +14,8 @@ User Management
 <div class="card authform">
     <div class="card-body">
         @include('partials.alerts')
-        <form method="POST" action="{{ route('admin.users.store') }} class="                m-4"">
-            @include('admin.mentees.partials.form')
+        <form method="POST" action="{{ route('admin.users.store') }} class=" m-4"">
+            @include('admin.users.partials.form')
         </form>
     </div>
 </div>

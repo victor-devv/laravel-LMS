@@ -52,12 +52,23 @@
 </div>
 @endif
 
-<div class="mb-3" hidden>
-    <label for="roles">Role</label>
+<div class="mb-3">
+    <label for="roles">Role(s)</label>
     <select name="roles[]" id="roles" class="form-control roles-selector">
-        <option id="role4" value="4" selected>Student</option>
+        <option value="" disabled selected>Select Role</option>
+
+        @foreach($roles as $role)
+        <option id="role{{ $role->id }}" value="{{ $role->id }}" @if(isset($user)) @if($user->hasRole($role->id))
+            selected
+            @endif
+            @endif
+            >{{ $role->name }}</option>
+
+        @endforeach
+
     </select>
 </div>
+
 
 <div class="mb-3" hidden id="mentorSection">
     <label for="mentor">Mentor</label>
