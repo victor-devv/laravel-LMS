@@ -19,6 +19,9 @@ class CreateMenteesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->integer('mentor_id');
+            $table->double('amount_paid', 8, 2)->default('0.00');
+            $table->boolean('approval_status')->default(0);
+
             $table->timestamps();
         });
     }

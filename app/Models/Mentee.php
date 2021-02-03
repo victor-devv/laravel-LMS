@@ -14,7 +14,10 @@ class Mentee extends Model
         'first_name',
         'last_name',
         'user_id',
-        'mentor_id'
+        'mentor_id',
+        'payment_status',
+        'amount_paid',
+        'approval_status'
     ];
 
     public function mentor()

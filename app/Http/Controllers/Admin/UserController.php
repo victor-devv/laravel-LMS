@@ -15,10 +15,10 @@ use App\Actions\Fortify\CreateNewUser;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware(['auth', 'auth.isAdmin']);
+    // }
 
     /**
      * Display a listing of the resource.
@@ -27,9 +27,9 @@ class UserController extends Controller
      */
     public function index()
     {        
-        if (Gate::denies('logged-in')) {
-            dd('unauthorized');
-        }
+        // if (Gate::denies('logged-in')) {
+        //     dd('unauthorized');
+        // }
         $users = User::paginate(10);
         // dd($users);
 
@@ -142,7 +142,6 @@ class UserController extends Controller
         $user = User::find($id);
         $mentor = Mentor::where('user_id', $id)->first();
         $mentee = Mentee::where('user_id', $id)->first();
-        dd($user->mentor());
         if ($mentor) {
             return view(
                 'admin.users.show',
@@ -153,12 +152,14 @@ class UserController extends Controller
                 ]
             );
         } else if ($mentee) {
+            // dd($user->mentor());
+
             return view(
                 'admin.users.show',
                 [
                     'roles' => $user->roles(),
                     'user' => $user,
-                    'mentor' => $user->mentor(),
+                    'mentor' => Mentee::find(1)->mentor,
                 ]
             );
         }

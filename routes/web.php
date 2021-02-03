@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MenteeController;
 use App\Http\Controllers\Mentor\MentorController;
 use App\Http\Controllers\Admin\DashboardController;
 
@@ -32,7 +33,10 @@ Route::post('authenticate', [LoginController::class, 'authenticate'])->name('aut
 //
 Route::middleware(['auth', 'auth.isAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('/users', UserController::class);
+    Route::resource('/mentees', MenteeController::class);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::patch('/approve-mentee/{mentee_id}', [MenteeController::class, 'approve'])->name('mentee.approve');
+
 });
 
 // Mentor/Teacher Routes

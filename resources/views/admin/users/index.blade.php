@@ -31,7 +31,7 @@ User Management
                             <th scope="col">Last Name</th>
                             <th scope="col">MSISDN</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,14 +45,14 @@ User Management
                             <td scope="row" class="">
                                 <div class="d-flex">
                                     <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-sm btn-info align-self-start mr-auto" role="button">View</a>
-                                    
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning align-self-center mx-auto" role="button">Edit</a>
-                                    
-                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" id="deleteUserForm{{ $user->id }}" class="float-right ml-auto" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger btn-sm align-self-end">Delete</button>
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning align-self-center mx-auto" role="button">Edit</a>
+
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" id="deleteUserForm{{ $user->id }}" class="float-right ml-auto" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-danger btn-sm align-self-end">Delete</button>
                                     </form>
                                 </div>
                             </td>

@@ -1,6 +1,6 @@
 @extends('admin.templates.main')
 @section('header')
-User Management
+Mentee Management
 @endsection
 
 @section('css')
@@ -10,12 +10,12 @@ User Management
 @endsection
 
 @section('content')
-<h2>Add User</h2>
+<h2>Add Mentee</h2>
 <div class="card authform">
     <div class="card-body">
         @include('partials.alerts')
-        <form method="POST" action="{{ route('admin.users.store') }} class="                m-4"">
-            @include('admin.mentees.partials.form')
+        <form method="POST" action="{{ route('admin.users.store') }}" class="m-4">
+            @include('admin.users.partials.form')
         </form>
     </div>
 </div>

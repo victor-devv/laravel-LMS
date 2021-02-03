@@ -1,4 +1,7 @@
-@extends('templates.main')
+@extends('admin.templates.main')
+@section('header')
+Edit User
+@endsection
 
 @section('css')
 
@@ -8,12 +11,10 @@
 
 @section('content')
 <h1>Edit User</h1>
-<br>
-<br>
 <div class="card authform">
     <div class="card-body">
         @include('partials.alerts')
-        <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
+        <form method="POST" action="{{ route('admin.users.update', $user->id) }} class="                m-4"">
             @method('PATCH')
             @include('admin.users.partials.form')
         </form>
@@ -27,48 +28,71 @@
 
 <script>
     $(document).ready(() => {
-        $(".roles-selector").select2({
-            tags: true
-        });
+        // $(".roles-selector").select2({
+        //     tags: true
+        // });
 
-        let selectObject = $('#roles').select2('data');
+        // let selectObject = $('#roles').select2('data');
 
-        let found = false;
+        // let found = false;
 
-        if (selectObject === undefined || selectObject.length == 0) {
+        // if (selectObject === undefined || selectObject.length == 0) {
+        //     $('#mentorSection').attr('hidden', true);
+        // }
+
+        // for (var i = 0; i < selectObject.length; i++) {
+        //     if (selectObject[i].text == 'Student') {
+        //         found = true;
+        //         $('#mentorSection').attr('hidden', false);
+        //         break;
+        //     } else {
+        //         $('#mentorSection').attr('hidden', true);
+        //     }
+        // }
+
+        // $('#roles').on('change', function() {
+        //     let selectObject = $('#roles').select2('data');
+
+        //     let found = false;
+
+        //     if (selectObject === undefined || selectObject.length == 0) {
+        //         $('#mentorSection').attr('hidden', true);
+        //     }
+
+        //     for (var i = 0; i < selectObject.length; i++) {
+        //         if (selectObject[i].text == 'Student') {
+        //             found = true;
+        //             $('#mentorSection').attr('hidden', false);
+        //             break;
+        //         } else {
+        //             $('#mentorSection').attr('hidden', true);
+        //         }
+        //     }
+
+        // });
+
+        let val = $("#roles").val();
+
+        if (val == '4') {
+            console.log('yes');
+            $('#mentorSection').attr('hidden', false);
+        } else {
             $('#mentorSection').attr('hidden', true);
         }
 
-        for (var i = 0; i < selectObject.length; i++) {
-            if (selectObject[i].text == 'Student') {
-                found = true;
+        $("#roles").change((function() {
+            var val = $(this).val();
+
+            if (val == '4') {
+                console.log('yes C');
+
                 $('#mentorSection').attr('hidden', false);
-                break;
             } else {
                 $('#mentorSection').attr('hidden', true);
             }
-        }
 
-        $('#roles').on('change', function() {
-            let selectObject = $('#roles').select2('data');
+        }));
 
-            let found = false;
-
-            if (selectObject === undefined || selectObject.length == 0) {
-                $('#mentorSection').attr('hidden', true);
-            }
-
-            for (var i = 0; i < selectObject.length; i++) {
-                if (selectObject[i].text == 'Student') {
-                    found = true;
-                    $('#mentorSection').attr('hidden', false);
-                    break;
-                } else {
-                    $('#mentorSection').attr('hidden', true);
-                }
-            }
-
-        });
     })
 </script>
 @endsection

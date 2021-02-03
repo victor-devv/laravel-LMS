@@ -52,8 +52,8 @@
                             <p>Mentor Management</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="#">
+                    <li class="nav-item {{ request()->routeIs('admin.mentees.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ request()->routeIs('admin.mentees.index') ? '#' : route('admin.mentees.index') }}">
                             <i class="material-icons">book</i>
                             <p>Mentee Management</p>
                         </a>
@@ -110,7 +110,7 @@
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
                         <a class="navbar-brand" href="javascript:;">
-                            <h5 class="mt-0">@yield('header')</h5>
+                            <h5 class="mt-0" style="color: black; font-weight:400;">@yield('header')</h5>
                         </a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -232,6 +232,8 @@
     <script src="{{ asset('js/admin/plugins/chartist.min.js') }}"></script>
     <!--  Notifications Plugin    -->
     <script src="{{ asset('js/admin/plugins/bootstrap-notify.js') }}"></script>
+    @yield('scripts')
+
 </body>
 
 </html>
